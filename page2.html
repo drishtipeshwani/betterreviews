@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generated Review - {{ product_name }}</title>
+    <style>
+        :root {
+            --primary-dark: #213555;
+            --primary-medium: #3E5879;
+            --accent-light: #D8C4B6;
+            --background-cream: #F5EFE7;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-cream);
+            color: var(--primary-dark);
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(33, 53, 85, 0.1);
+            border: 1px solid var(--accent-light);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .main-title {
+            color: var(--primary-dark);
+            font-size: 2.2em;
+            font-weight: 700;
+            margin: 0 0 30px 0;
+            letter-spacing: -0.5px;
+        }
+        .review-section {
+            background: linear-gradient(135deg, var(--background-cream) 0%, white 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--accent-light);
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .review-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-medium), var(--primary-dark));
+        }
+        .review-content {
+            color: var(--primary-dark);
+            font-size: 1.1em;
+            line-height: 1.8;
+            text-align: justify;
+            padding-left: 15px;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .action-button {
+            display: inline-block;
+            padding: 16px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            color: white;
+            background-color: var(--primary-medium);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(62, 88, 121, 0.3);
+        }
+        .action-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(62, 88, 121, 0.4);
+        }
+        .action-button.secondary {
+            background-color: var(--accent-light);
+            color: var(--primary-dark);
+            border: 2px solid var(--primary-medium);
+        }
+        .action-button.secondary:hover {
+            background-color: var(--primary-medium);
+            color: white;
+        }
+        .loading-placeholder {
+            text-align: center;
+            color: var(--primary-medium);
+            font-style: italic;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">⭐ Product Review</h1>
+        </div>
+        
+        <div class="review-section">
+            <div class="review-content">
+                {% if generated_review %}
+                    <div class="markdown-content" id="review-content">
+                        {{ generated_review|safe }}
+                    </div>
+                    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const reviewContent = document.getElementById('review-content');
+                            const markdownText = reviewContent.innerHTML.trim();
+                            const marked = window.marked;
+                            reviewContent.innerHTML = marked.parse(markdownText);
+                        });
+                    </script>
+                {% else %}
+                    <div class="loading-placeholder">
+                        <p>🔄 Generating comprehensive review based on available data...</p>
+                        <p>This may take a few moments as we analyze user reviews and product information.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <a href="{{ url_for('home') }}" class="action-button">🔍 Search Another Product</a>
+            <a href="{{ url_for('page1') }}" class="action-button secondary">📝 Share Your Review</a>
+        </div>
+    </div>
+</body>
+</html>
